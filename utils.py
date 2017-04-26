@@ -457,6 +457,28 @@ def detect_lane_curvature_v2(ploty, fit_coeff, window_centroids):
     # print("left curverad\t: {} m \nright_curverad\t: {} m".format(left_curverad, right_curverad))
     return (left_curverad, right_curverad)
 
+def check_lines_curvature(lines, curvatures):
+    left_Line = lines[0]
+    right_Line = lines[1]
+
+    left_curverad = np.float32(curvatures[0])
+    right_curverad = np.float32(curvatures[1])
+
+    don = min(left_curverad, right_curverad)
+    mol = max(left_curverad, right_curverad)
+    ratio = mol / don
+    
+    l_don = min(left_curverad, left_Line.radius_of_curvature)
+    l_mol = max(left_curverad, left_Line.radius_of_curvature)
+    l_ratio = l_mol / l_don
+    r_don = min(right_curverad, right_Line.radius_of_curvature)
+    r_mol = max(right_curverad, right_Line.radius_of_curvature)
+    r_ratio = r_mol / r_don
+
+    return (ratio, l_ratio, r_ratio)
+
+
+
 
 if __name__ == '__main__':
 
